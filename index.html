@@ -20,7 +20,6 @@
             overflow: hidden;
         }
 
-        /* SIDEBAR - BỘ LỌC CHƯƠNG */
         .sidebar {
             width: 280px;
             background: #ffffff;
@@ -112,7 +111,6 @@
             justify-content: space-between;
         }
 
-        /* Danh sách câu hỏi trong chương */
         .question-list-section {
             margin-top: 20px;
             border-top: 1px solid #e2edf2;
@@ -183,7 +181,6 @@
             font-weight: 700;
         }
 
-        /* Nút Reset */
         .reset-section {
             margin: 10px 20px 20px 20px;
         }
@@ -234,7 +231,6 @@
             background: #fecaca;
         }
 
-        /* MAIN CONTENT */
         .main-content {
             flex: 1;
             display: flex;
@@ -256,7 +252,6 @@
             color: transparent;
         }
 
-        /* card câu hỏi */
         .question-card {
             background: white;
             border-radius: 32px;
@@ -312,24 +307,38 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 10px 16px;
+            padding: 12px 18px;
             background: #fafcff;
             border-radius: 60px;
             border: 1px solid #e2edf2;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s ease;
         }
 
         .option:hover {
             background: #eef7f3;
             border-color: #9ec5b8;
+            transform: translateX(4px);
         }
 
-        .option input {
-            accent-color: #1e6f5c;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
+        /* Style cho đáp án ĐÚNG (luôn có thể click lại) */
+        .option.correct-selected {
+            background: #22c55e;
+            border-color: #16a34a;
+        }
+        .option.correct-selected label {
+            color: white !important;
+            font-weight: 600;
+        }
+
+        /* Style cho đáp án SAI */
+        .option.wrong-selected {
+            background: #f87171;
+            border-color: #dc2626;
+        }
+        .option.wrong-selected label {
+            color: white !important;
+            font-weight: 600;
         }
 
         .option label {
@@ -337,6 +346,7 @@
             flex: 1;
             cursor: pointer;
             color: #2a4d6a;
+            transition: color 0.1s ease;
         }
 
         .feedback {
@@ -358,7 +368,6 @@
             border-left-color: #c95a5a;
         }
 
-        /* button group */
         .action-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -471,7 +480,7 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>📖 Kinh tế chính trị</h2>
-            <h3>Đắc Phong</h3>
+            <p>Đắc Phong</p>
         </div>
         <div class="filter-section">
             <div class="filter-title">📚 LỌC THEO CHƯƠNG</div>
@@ -484,25 +493,17 @@
             <p><span>🔥 Chuỗi đúng:</span> <span id="streakCount">0</span></p>
         </div>
 
-        <!-- DANH SÁCH CÂU HỎI TRONG CHƯƠNG -->
         <div class="question-list-section" id="questionListSection">
             <div class="question-list-title" id="questionListTitle">📋 DANH SÁCH CÂU HỎI (0/0)</div>
-            <div class="question-list" id="questionListContainer">
-                <!-- JS sẽ tạo động -->
-            </div>
+            <div class="question-list" id="questionListContainer"></div>
             <div style="font-size: 0.7rem; color: #5f7f9e; margin-top: 10px; text-align: center;">
-                ✅ Xanh đậm = đúng | ❌ Đỏ = sai | 📝 Xanh lá = đã làm | ⚪ Trắng = chưa làm
+                ✅ Xanh = đúng | ❌ Đỏ = sai | ⚪ Trắng = chưa làm | 🔵 Viền xanh = câu hiện tại
             </div>
         </div>
 
-        <!-- NÚT RESET THEO CHƯƠNG -->
         <div class="reset-section">
-            <button class="reset-chapter-btn" id="resetChapterBtn">
-                🔄 RESET CHƯƠNG NÀY
-            </button>
-            <button class="reset-all-btn" id="resetAllBtn">
-                ⚠️ RESET TẤT CẢ (toàn bộ chương)
-            </button>
+            <button class="reset-chapter-btn" id="resetChapterBtn">🔄 RESET CHƯƠNG NÀY</button>
+            <button class="reset-all-btn" id="resetAllBtn">⚠️ RESET TẤT CẢ (toàn bộ chương)</button>
         </div>
     </div>
 
@@ -523,7 +524,6 @@
 
         <div class="action-buttons">
             <button class="btn" id="prevBtn">◀ Câu trước</button>
-            <button class="btn btn-primary" id="checkBtn">✅ Kiểm tra đáp án</button>
             <button class="btn btn-primary" id="nextBtn">Câu tiếp theo ▶</button>
             <button class="btn btn-outline" id="randomBtn">🎲 Câu ngẫu nhiên</button>
         </div>
@@ -544,8 +544,13 @@
             </div>
         </div>
         <div class="guide">
-            💡 Hướng dẫn: Chọn đáp án → bấm "Kiểm tra". Dữ liệu tự động lưu. Click số câu bên trái để chuyển nhanh. <br>
-            🟡 "RESET CHƯƠNG NÀY" - Xóa đáp án chỉ trong chương đang học. 🔴 "RESET TẤT CẢ" - Xóa toàn bộ tiến độ.
+            💡 <strong>HƯỚNG DẪN SỬ DỤNG - CÓ THỂ ĐỔI ĐÁP ÁN BẤT CỨ LÚC NÀO</strong><br>
+            ✅ <strong>Chọn đáp án:</strong> Click trực tiếp vào đáp án bạn muốn.<br>
+            🟢 <strong>Đáp án ĐÚNG</strong> → hiển thị <span style="color:#22c55e; font-weight:bold;">MÀU XANH</span>.<br>
+            🔴 <strong>Đáp án SAI</strong> → hiển thị <span style="color:#f87171; font-weight:bold;">MÀU ĐỎ</span>.<br>
+            🔄 <strong>ĐỔI ĐÁP ÁN:</strong> Bạn có thể <strong>click vào bất kỳ đáp án nào khác</strong> để thay đổi lựa chọn, KHÔNG GIỚI HẠN SỐ LẦN. Màu sắc sẽ tự động cập nhật theo đáp án mới!<br>
+            🗑️ <strong>"RESET CHƯƠNG NÀY"</strong> - Xóa đáp án chỉ trong chương đang học.<br>
+            ⚠️ <strong>"RESET TẤT CẢ"</strong> - Xóa toàn bộ tiến độ.
         </div>
     </div>
 
@@ -569,7 +574,6 @@
         const qTextDiv = document.getElementById("qText");
         const optionsDiv = document.getElementById("optionsContainer");
         const feedbackDiv = document.getElementById("feedbackArea");
-        const checkBtn = document.getElementById("checkBtn");
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
         const randomBtn = document.getElementById("randomBtn");
@@ -615,11 +619,12 @@
             statCorrectSpan.innerText = totalCorrect;
             statAccSpan.innerText = accuracy.toFixed(1) + "%";
             
-            if(localStorage.getItem("ktct_streak")) currentStreak = parseInt(localStorage.getItem("ktct_streak")) || 0;
+            // Lấy streak từ localStorage
+            let savedStreak = localStorage.getItem("ktct_streak");
+            currentStreak = savedStreak ? parseInt(savedStreak) : 0;
             streakSpan.innerText = currentStreak;
         }
         
-        // Lấy danh sách câu hỏi thuộc chương hiện tại
         function getCurrentChapterQuestions() {
             if (currentChapter === "Tất cả") {
                 return allQuestions;
@@ -628,7 +633,6 @@
             }
         }
         
-        // Cập nhật danh sách câu hỏi theo chương hiện tại
         function updateQuestionList() {
             const container = document.getElementById("questionListContainer");
             const titleSpan = document.getElementById("questionListTitle");
@@ -674,6 +678,51 @@
             });
         }
         
+        // Hàm xử lý khi click vào đáp án - HOÀN TOÀN CÓ THỂ ĐỔI LẠI
+        function handleAnswerClick(selectedIdx) {
+            const qid = filteredIndices[currentIndex];
+            const question = allQuestions.find(q => q.id === qid);
+            if (!question) return;
+            
+            const isCorrect = (selectedIdx === question.correct);
+            
+            // Kiểm tra xem đã có câu trả lời cũ chưa
+            const oldAnswer = userAnswers[qid];
+            const wasCorrect = oldAnswer ? oldAnswer.isCorrect : false;
+            
+            // Lưu đáp án mới (ghi đè hoàn toàn)
+            userAnswers[qid] = {
+                selected: selectedIdx,
+                isCorrect: isCorrect,
+                answered: true
+            };
+            
+            // Cập nhật streak:
+            // Nếu trước đó đã đúng và bây giờ vẫn đúng -> giữ nguyên streak
+            // Nếu trước đó đúng nhưng bây giờ sai -> reset streak = 0
+            // Nếu trước đó sai mà bây giờ đúng -> tăng streak
+            // Nếu trước đó sai và bây giờ vẫn sai -> reset streak = 0
+            
+            if (isCorrect) {
+                if (!wasCorrect) {
+                    // Chuyển từ sai thành đúng -> tăng streak
+                    currentStreak++;
+                }
+                // Nếu đã đúng rồi mà vẫn đúng -> không thay đổi streak
+            } else {
+                // Chọn sai -> reset streak
+                currentStreak = 0;
+            }
+            
+            localStorage.setItem("ktct_streak", currentStreak);
+            
+            saveAnswers();
+            
+            // Render lại giao diện
+            renderCurrentQuestion();
+        }
+        
+        // Render câu hỏi - TẤT CẢ ĐÁP ÁN ĐỀU CÓ THỂ CLICK ĐƯỢC
         function renderCurrentQuestion() {
             if (!allQuestions.length || filteredIndices.length === 0) return;
             const qid = filteredIndices[currentIndex];
@@ -687,38 +736,47 @@
             optionsDiv.innerHTML = "";
             const opts = question.options;
             const saved = userAnswers[question.id];
-            const selectedVal = (saved && saved.selected !== undefined) ? saved.selected : null;
+            const isAnswered = saved && saved.answered;
+            const selectedVal = isAnswered ? saved.selected : null;
+            const isAnswerCorrect = isAnswered ? saved.isCorrect : false;
             
             opts.forEach((opt, idx) => {
                 const letter = String.fromCharCode(65+idx);
                 const div = document.createElement("div");
                 div.className = "option";
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = "question_option";
-                radio.value = idx;
-                if (selectedVal === idx) radio.checked = true;
-                radio.addEventListener("change", function() {
-                    feedbackDiv.style.display = "none";
-                });
+                
                 const label = document.createElement("label");
                 label.innerText = `${letter}. ${opt}`;
-                div.appendChild(radio);
                 div.appendChild(label);
+                
+                // Nếu đây là đáp án đã chọn
+                if (isAnswered && idx === selectedVal) {
+                    if (isAnswerCorrect) {
+                        div.classList.add("correct-selected");
+                    } else {
+                        div.classList.add("wrong-selected");
+                    }
+                }
+                
+                // QUAN TRỌNG: TẤT CẢ CÁC ĐÁP ÁN ĐỀU CÓ THỂ CLICK ĐỂ ĐỔI
+                // Không khóa bất kỳ đáp án nào, kể cả đã chọn đúng
+                div.style.cursor = "pointer";
+                div.onclick = () => handleAnswerClick(idx);
+                
                 optionsDiv.appendChild(div);
             });
             
-            if (saved && saved.answered) {
-                const isCorrect = saved.isCorrect;
-                const correctIdx = question.correct;
-                const correctLetter = String.fromCharCode(65+correctIdx);
-                const correctAnswerText = question.options[correctIdx];
+            // Hiển thị feedback nếu đã trả lời
+            if (isAnswered) {
+                const correctLetter = String.fromCharCode(65+question.correct);
+                const correctAnswerText = question.options[question.correct];
                 feedbackDiv.style.display = "block";
-                feedbackDiv.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
-                if (isCorrect) {
-                    feedbackDiv.innerHTML = `✅ Chính xác! Đáp án đúng: ${correctLetter}. ${correctAnswerText}`;
+                if (isAnswerCorrect) {
+                    feedbackDiv.className = "feedback correct";
+                    feedbackDiv.innerHTML = `✅ Chính xác! Đáp án đúng: ${correctLetter}. ${correctAnswerText}<br>🔄 Bạn vẫn có thể click vào đáp án khác để thay đổi.`;
                 } else {
-                    feedbackDiv.innerHTML = `❌ Sai rồi. Đáp án đúng: ${correctLetter}. ${correctAnswerText}. Hãy ghi nhớ!`;
+                    feedbackDiv.className = "feedback wrong";
+                    feedbackDiv.innerHTML = `❌ Hiện tại sai. Đáp án đúng là: ${correctLetter}. ${correctAnswerText}<br>🔄 Hãy click vào đáp án đúng để sửa!`;
                 }
             } else {
                 feedbackDiv.style.display = "none";
@@ -727,102 +785,41 @@
             updateQuestionList();
         }
         
-        function checkAnswer() {
-            if (!allQuestions.length || filteredIndices.length === 0) return;
-            const qid = filteredIndices[currentIndex];
-            const question = allQuestions.find(q => q.id === qid);
-            if (!question) return;
-            
-            const radios = document.querySelectorAll('input[name="question_option"]');
-            let selected = null;
-            for (let i=0; i<radios.length; i++) {
-                if (radios[i].checked) { selected = i; break; }
-            }
-            if (selected === null) {
-                alert("Vui lòng chọn một đáp án trước khi kiểm tra!");
-                return;
-            }
-            const isCorrect = (selected === question.correct);
-            const prevWasCorrect = (userAnswers[qid] && userAnswers[qid].isCorrect) || false;
-            userAnswers[qid] = {
-                selected: selected,
-                isCorrect: isCorrect,
-                answered: true
-            };
-            if (isCorrect) {
-                if (!prevWasCorrect) currentStreak++;
-            } else {
-                currentStreak = 0;
-            }
-            localStorage.setItem("ktct_streak", currentStreak);
-            saveAnswers();
-            
-            const correctLetter = String.fromCharCode(65+question.correct);
-            const correctAnswerText = question.options[question.correct];
-            feedbackDiv.style.display = "block";
-            feedbackDiv.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
-            if (isCorrect) {
-                feedbackDiv.innerHTML = `✅ Chính xác! Đáp án đúng: ${correctLetter}. ${correctAnswerText}`;
-            } else {
-                feedbackDiv.innerHTML = `❌ Sai rồi. Đáp án đúng: ${correctLetter}. ${correctAnswerText}. Bạn đã chọn ${String.fromCharCode(65+selected)}.`;
-            }
-            renderCurrentQuestion();
-        }
-        
-        // RESET THEO CHƯƠNG HIỆN TẠI
         function resetCurrentChapter() {
             const chapterName = currentChapter === "Tất cả" ? "TẤT CẢ CÁC CHƯƠNG" : currentChapter;
             const confirmMsg = `⚠️ Bạn có chắc chắn muốn RESET ${chapterName}?\n\nTất cả câu trả lời trong chương này sẽ bị xóa. Các chương khác không bị ảnh hưởng.`;
             
             if (confirm(confirmMsg)) {
-                // Lấy danh sách câu hỏi thuộc chương hiện tại
                 const questionsToReset = (currentChapter === "Tất cả") 
                     ? allQuestions 
                     : allQuestions.filter(q => q.chapter === currentChapter);
                 
-                // Xóa câu trả lời của các câu trong chương này
                 questionsToReset.forEach(q => {
                     if (userAnswers[q.id]) {
                         delete userAnswers[q.id];
                     }
                 });
                 
-                // Reset streak (chuỗi đúng) vì tiến độ thay đổi
                 currentStreak = 0;
                 localStorage.setItem("ktct_streak", 0);
-                
-                // Lưu lại
                 saveAnswers();
-                
-                // Cập nhật giao diện
                 renderCurrentQuestion();
                 updateQuestionList();
-                
                 alert(`✅ Đã reset ${chapterName} thành công! Các chương khác vẫn giữ nguyên tiến độ.`);
             }
         }
         
-        // RESET TOÀN BỘ (tất cả các chương)
         function resetAllChapters() {
             const confirmMsg = `⚠️⚠️⚠️ CẢNH BÁO: RESET TẤT CẢ sẽ xóa toàn bộ câu trả lời của bạn trong tất cả các chương!\n\nBạn có chắc chắn muốn làm điều này?`;
             
             if (confirm(confirmMsg)) {
-                // Xóa toàn bộ localStorage
                 localStorage.removeItem("ktct_answers");
                 localStorage.removeItem("ktct_streak");
-                
-                // Reset biến
                 userAnswers = {};
                 currentStreak = 0;
-                localStorage.setItem("ktct_streak", 0);
-                
-                // Lưu lại
                 saveAnswers();
-                
-                // Cập nhật giao diện
                 renderCurrentQuestion();
                 updateQuestionList();
-                
                 alert("✅ Đã reset toàn bộ! Bạn có thể bắt đầu làm lại từ đầu.");
             }
         }
@@ -894,7 +891,6 @@
             filterByChapter("Tất cả");
             updateStatsAndProgress();
             
-            checkBtn.onclick = checkAnswer;
             nextBtn.onclick = nextQuestion;
             prevBtn.onclick = prevQuestion;
             randomBtn.onclick = randomQuestion;
