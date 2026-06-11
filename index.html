@@ -10,587 +10,7 @@
             document.documentElement.classList.add("sidebar-collapsed");
         }
     </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
-            background: #eef2f5;
-            color: #1a2c3e;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: #ffffff;
-            border-right: 1px solid #dce4ec;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            box-shadow: 2px 0 12px rgba(0,0,0,0.03);
-            z-index: 2;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            flex-shrink: 0;
-        }
-
-        .sidebar-header {
-            padding: 24px 20px 16px;
-            border-bottom: 1px solid #e9edf2;
-        }
-
-        .sidebar-header h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #0b5e7e;
-            letter-spacing: -0.2px;
-        }
-
-        .sidebar-header p {
-            font-size: 0.75rem;
-            color: #5f7f9e;
-            margin-top: 6px;
-        }
-
-        .filter-section {
-            padding: 16px 20px;
-            border-bottom: 1px solid #eef2f6;
-        }
-
-        .filter-title {
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: #2c6e9e;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .chapter-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .chapter-btn {
-            background: none;
-            border: none;
-            text-align: left;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #2c4c6c;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-
-        .chapter-btn.active {
-            background: #1e6f5c;
-            color: white;
-            border-color: #1e6f5c;
-            box-shadow: 0 4px 8px rgba(30,111,92,0.2);
-        }
-
-        .chapter-btn:hover:not(.active) {
-            background: #e6f4f1;
-            border-color: #bdd9d0;
-        }
-
-        .stats-mini {
-            margin-top: 24px;
-            padding: 16px 20px;
-            background: #f0f6fa;
-            border-radius: 20px;
-            margin: 20px;
-        }
-
-        .stats-mini p {
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .question-list-section {
-            margin-top: 20px;
-            border-top: 1px solid #e2edf2;
-            padding-top: 16px;
-            margin: 0 20px 20px 20px;
-        }
-
-        .question-list-title {
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: #2c6e9e;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .question-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            max-height: 280px;
-            overflow-y: auto;
-            padding: 4px 2px;
-        }
-
-        .question-item {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #f1f5f9;
-            color: #334155;
-            border: 1px solid #e2e8f0;
-        }
-
-        .question-item:hover {
-            background: #cbd5e1;
-            transform: scale(1.02);
-        }
-
-        .question-item.correct {
-            background: #22c55e;
-            color: white;
-            border-color: #16a34a;
-        }
-
-        .question-item.wrong {
-            background: #f87171;
-            color: white;
-            border-color: #dc2626;
-        }
-
-        .question-item.answered {
-            background: #bbf7d0;
-            color: #166534;
-            border-color: #86efac;
-        }
-
-        .question-item.current {
-            box-shadow: 0 0 0 2px #1e6f5c;
-            transform: scale(1.05);
-            font-weight: 700;
-        }
-
-        .reset-section {
-            margin: 10px 20px 20px 20px;
-        }
-
-        .reset-chapter-btn {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #b45309;
-            padding: 12px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .reset-chapter-btn:hover {
-            background: #fde68a;
-            transform: translateY(-1px);
-        }
-
-        .reset-all-btn {
-            background: #fee2e2;
-            border: 1px solid #f87171;
-            color: #dc2626;
-            padding: 10px 14px;
-            border-radius: 16px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .reset-all-btn:hover {
-            background: #fecaca;
-        }
-
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            padding: 24px 32px;
-            transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .header-title {
-            margin-bottom: 24px;
-        }
-
-        .header-title h1 {
-            font-size: 1.9rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1a4e63, #138b75);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 32px;
-            padding: 28px 32px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-            transition: all 0.2s;
-        }
-
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px dashed #cbdde9;
-        }
-
-        .question-number {
-            font-weight: 700;
-            font-size: 1.2rem;
-            background: #eef2f5;
-            padding: 4px 14px;
-            border-radius: 40px;
-            color: #1e6f5c;
-        }
-
-        .question-chapter {
-            font-size: 0.8rem;
-            background: #eef2f5;
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: #3a6b8f;
-        }
-
-        .question-text {
-            font-size: 1.25rem;
-            font-weight: 500;
-            line-height: 1.4;
-            margin-bottom: 28px;
-            color: #1f3b4c;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-
-        .option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 18px;
-            background: #fafcff;
-            border-radius: 60px;
-            border: 1px solid #e2edf2;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option:hover {
-            background: #eef7f3;
-            border-color: #9ec5b8;
-            transform: translateX(4px);
-        }
-
-        /* Style cho đáp án ĐÚNG (luôn có thể click lại) */
-        .option.correct-selected {
-            background: #22c55e;
-            border-color: #16a34a;
-        }
-        .option.correct-selected label {
-            color: white !important;
-            font-weight: 600;
-        }
-
-        /* Style cho đáp án SAI */
-        .option.wrong-selected {
-            background: #f87171;
-            border-color: #dc2626;
-        }
-        .option.wrong-selected label {
-            color: white !important;
-            font-weight: 600;
-        }
-
-        .option label {
-            font-size: 1rem;
-            flex: 1;
-            cursor: pointer;
-            color: #2a4d6a;
-            transition: color 0.1s ease;
-        }
-
-        .feedback {
-            background: #f0f7fc;
-            padding: 14px 20px;
-            border-radius: 24px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            border-left: 5px solid #1e6f5c;
-        }
-
-        .feedback.correct {
-            background: #e0f2e9;
-            border-left-color: #2b7a62;
-        }
-
-        .feedback.wrong {
-            background: #ffeae9;
-            border-left-color: #c95a5a;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-top: 12px;
-            margin-bottom: 24px;
-        }
-
-        .btn {
-            border: none;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #cfdfe8;
-        }
-
-        .btn-primary {
-            background: #1e6f5c;
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #0f5a49;
-            transform: translateY(-1px);
-        }
-
-        .btn-outline {
-            background: white;
-            border: 1px solid #1e6f5c;
-            color: #1e6f5c;
-        }
-
-        .btn-outline:hover {
-            background: #e0f0ec;
-        }
-
-        .progress-stats {
-            background: white;
-            border-radius: 28px;
-            padding: 20px 24px;
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .stat-item {
-            flex: 1;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e6f5c;
-        }
-
-        .progress-bar-container {
-            background: #e2e8f0;
-            border-radius: 20px;
-            height: 10px;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .progress-fill {
-            background: #1e6f5c;
-            width: 0%;
-            height: 10px;
-            border-radius: 20px;
-        }
-
-        .guide {
-            background: #f9fbfd;
-            border-radius: 20px;
-            padding: 12px 20px;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            color: #436680;
-        }
-
-        @media (max-width: 750px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                max-height: 460px;
-                overflow-y: auto;
-            }
-            .main-content {
-                padding: 16px;
-            }
-            .question-list {
-                max-height: 100px;
-            }
-        }
-
-        /* Sidebar Toggle Button styling */
-        .sidebar-toggle {
-            position: fixed;
-            top: 24px;
-            left: 264px; /* 280px - 16px */
-            z-index: 99;
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            margin: 0;
-            outline: none;
-            line-height: 1;
-            background: #ffffff;
-            border: 1px solid #dce4ec;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #5f7f9e;
-        }
-        
-        .sidebar-toggle:hover {
-            color: #1e6f5c;
-            border-color: #1e6f5c;
-            background: #f0f6fa;
-            box-shadow: 0 4px 12px rgba(30,111,92,0.15);
-        }
-        
-        .sidebar-toggle svg {
-            display: none;
-            width: 16px;
-            height: 16px;
-        }
-        
-        /* Desktop Icon States */
-        @media (min-width: 751px) {
-            .sidebar-toggle .icon-desktop-close {
-                display: block;
-                transform: translateX(-1px); /* Optical alignment for left chevron */
-            }
-            .sidebar-collapsed .sidebar-toggle .icon-desktop-close {
-                display: none;
-            }
-            .sidebar-collapsed .sidebar-toggle .icon-desktop-open {
-                display: block;
-                transform: translateX(1px); /* Optical alignment for right chevron */
-            }
-            .sidebar-toggle .icon-mobile-close,
-            .sidebar-toggle .icon-mobile-open {
-                display: none !important;
-            }
-            .sidebar-collapsed .sidebar-toggle {
-                left: 20px;
-            }
-            .sidebar-collapsed .main-content {
-                padding-left: 64px;
-            }
-        }
-        
-        /* Mobile Icon States */
-        @media (max-width: 750px) {
-            .sidebar-toggle {
-                top: 16px;
-                right: 16px;
-                left: auto !important;
-            }
-            .sidebar-toggle .icon-mobile-close {
-                display: block;
-                transform: translateY(-1px); /* Optical alignment for up chevron */
-            }
-            .sidebar-collapsed .sidebar-toggle .icon-mobile-close {
-                display: none;
-            }
-            .sidebar-collapsed .sidebar-toggle .icon-mobile-open {
-                display: block;
-                transform: translateY(1px); /* Optical alignment for down chevron */
-            }
-            .sidebar-toggle .icon-desktop-close,
-            .sidebar-toggle .icon-desktop-open {
-                display: none !important;
-            }
-            .header-title {
-                padding-right: 40px; /* Don't overlap toggle button on mobile */
-            }
-        }
-        
-        /* Collapsed Sidebar behavior */
-        .sidebar-collapsed .sidebar {
-            width: 0;
-            min-width: 0;
-            border-right: none;
-            overflow: hidden !important;
-        }
-        
-        @media (max-width: 750px) {
-            .sidebar-collapsed .sidebar {
-                width: 100%;
-                height: 0;
-                max-height: 0;
-                border: none !important;
-                overflow: hidden !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Sidebar Toggle Button -->
@@ -658,6 +78,15 @@
             <div class="feedback" id="feedbackArea" style="display: none;"></div>
         </div>
 
+        <!-- Chế độ học -->
+        <div class="mode-selection-container">
+            <span class="mode-selection-title">⚙️ Chế độ học:</span>
+            <div class="mode-selection-group">
+                <button class="mode-selection-btn active" id="modeABtn">🔄 Chế độ A: Tuần tự</button>
+                <button class="mode-selection-btn" id="modeBBtn">🎲 Chế độ B: Ngẫu nhiên</button>
+            </div>
+        </div>
+
         <div class="action-buttons">
             <button class="btn" id="prevBtn">◀ Câu trước</button>
             <button class="btn btn-primary" id="nextBtn">Câu tiếp theo ▶</button>
@@ -697,6 +126,8 @@
         let currentIndex = 0;
         let filteredIndices = [];
         let currentChapter = "Tất cả";
+        let currentMode = localStorage.getItem("ktct_mode") || "A";
+        let shuffledIndices = [];
         
         let userAnswers = JSON.parse(localStorage.getItem("ktct_answers")) || {};
         
@@ -725,6 +156,62 @@
         const totalCorrectSpan = document.getElementById("totalCorrect");
         const accuracySpan = document.getElementById("accuracyRate");
         const progressFill = document.getElementById("progressFill");
+        
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function updateShuffledIndices() {
+            shuffledIndices = shuffleArray(filteredIndices);
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            localStorage.setItem("ktct_mode", mode);
+            
+            if (mode === "A") {
+                document.getElementById("modeABtn").classList.add("active");
+                document.getElementById("modeBBtn").classList.remove("active");
+            } else {
+                document.getElementById("modeABtn").classList.remove("active");
+                document.getElementById("modeBBtn").classList.add("active");
+                if (shuffledIndices.length === 0) {
+                    updateShuffledIndices();
+                }
+            }
+            
+            // Nếu ở chế độ B và câu hiện tại đã trả lời, tự động chuyển đến câu chưa trả lời gần nhất
+            if (mode === "B" && filteredIndices.length > 0) {
+                const currentQid = filteredIndices[currentIndex];
+                const saved = userAnswers[currentQid];
+                if (saved && saved.answered) {
+                    let shuffledPos = shuffledIndices.indexOf(currentQid);
+                    if (shuffledPos === -1) shuffledPos = 0;
+                    
+                    let found = false;
+                    let nextPos = shuffledPos;
+                    for (let i = 0; i < shuffledIndices.length; i++) {
+                        const checkPos = (shuffledPos + i) % shuffledIndices.length;
+                        const checkQid = shuffledIndices[checkPos];
+                        if (!userAnswers[checkQid] || !userAnswers[checkQid].answered) {
+                            nextPos = checkPos;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        const nextQid = shuffledIndices[nextPos];
+                        currentIndex = filteredIndices.indexOf(nextQid);
+                        renderCurrentQuestion();
+                    }
+                }
+            }
+        }
         
         function saveAnswers() {
             localStorage.setItem("ktct_answers", JSON.stringify(userAnswers));
@@ -939,6 +426,7 @@
                 currentStreak = 0;
                 localStorage.setItem("ktct_streak", 0);
                 saveAnswers();
+                updateShuffledIndices();
                 renderCurrentQuestion();
                 updateQuestionList();
                 alert(`✅ Đã reset ${chapterName} thành công! Các chương khác vẫn giữ nguyên tiến độ.`);
@@ -954,6 +442,7 @@
                 userAnswers = {};
                 currentStreak = 0;
                 saveAnswers();
+                updateShuffledIndices();
                 renderCurrentQuestion();
                 updateQuestionList();
                 alert("✅ Đã reset toàn bộ! Bạn có thể bắt đầu làm lại từ đầu.");
@@ -969,6 +458,25 @@
             }
             if (filteredIndices.length === 0) filteredIndices = allQuestions.map(q => q.id);
             currentIndex = 0;
+            
+            updateShuffledIndices();
+            
+            // Nếu ở chế độ B, tự động nhảy đến câu hỏi đầu tiên chưa trả lời trong danh sách shuffle
+            if (currentMode === "B" && shuffledIndices.length > 0) {
+                let found = false;
+                let nextPos = 0;
+                for (let i = 0; i < shuffledIndices.length; i++) {
+                    const checkQid = shuffledIndices[i];
+                    if (!userAnswers[checkQid] || !userAnswers[checkQid].answered) {
+                        nextPos = i;
+                        found = true;
+                        break;
+                    }
+                }
+                const nextQid = shuffledIndices[nextPos];
+                currentIndex = filteredIndices.indexOf(nextQid);
+            }
+            
             renderCurrentQuestion();
             updateFilterButtonsActive(chapter);
             updateQuestionList();
@@ -1000,21 +508,92 @@
         
         function nextQuestion() {
             if (filteredIndices.length === 0) return;
-            currentIndex = (currentIndex + 1) % filteredIndices.length;
+            if (currentMode === "A") {
+                currentIndex = (currentIndex + 1) % filteredIndices.length;
+            } else {
+                // Mode B
+                const qid = filteredIndices[currentIndex];
+                let shuffledPos = shuffledIndices.indexOf(qid);
+                if (shuffledPos === -1) {
+                    shuffledPos = 0;
+                }
+                
+                let found = false;
+                let nextPos = shuffledPos;
+                for (let i = 1; i <= shuffledIndices.length; i++) {
+                    const checkPos = (shuffledPos + i) % shuffledIndices.length;
+                    const checkQid = shuffledIndices[checkPos];
+                    if (!userAnswers[checkQid] || !userAnswers[checkQid].answered) {
+                        nextPos = checkPos;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    nextPos = (shuffledPos + 1) % shuffledIndices.length;
+                }
+                
+                const nextQid = shuffledIndices[nextPos];
+                currentIndex = filteredIndices.indexOf(nextQid);
+            }
             renderCurrentQuestion();
         }
         
         function prevQuestion() {
             if (filteredIndices.length === 0) return;
-            currentIndex = (currentIndex - 1 + filteredIndices.length) % filteredIndices.length;
+            if (currentMode === "A") {
+                currentIndex = (currentIndex - 1 + filteredIndices.length) % filteredIndices.length;
+            } else {
+                // Mode B
+                const qid = filteredIndices[currentIndex];
+                let shuffledPos = shuffledIndices.indexOf(qid);
+                if (shuffledPos === -1) {
+                    shuffledPos = 0;
+                }
+                
+                let found = false;
+                let prevPos = shuffledPos;
+                for (let i = 1; i <= shuffledIndices.length; i++) {
+                    const checkPos = (shuffledPos - i + shuffledIndices.length) % shuffledIndices.length;
+                    const checkQid = shuffledIndices[checkPos];
+                    if (!userAnswers[checkQid] || !userAnswers[checkQid].answered) {
+                        prevPos = checkPos;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    prevPos = (shuffledPos - 1 + shuffledIndices.length) % shuffledIndices.length;
+                }
+                
+                const prevQid = shuffledIndices[prevPos];
+                currentIndex = filteredIndices.indexOf(prevQid);
+            }
             renderCurrentQuestion();
         }
         
         function randomQuestion() {
             if (filteredIndices.length === 0) return;
-            const rand = Math.floor(Math.random() * filteredIndices.length);
-            currentIndex = rand;
-            renderCurrentQuestion();
+            if (currentMode !== "B") {
+                switchMode("B");
+            } else {
+                updateShuffledIndices();
+                let found = false;
+                let nextPos = 0;
+                for (let i = 0; i < shuffledIndices.length; i++) {
+                    const checkQid = shuffledIndices[i];
+                    if (!userAnswers[checkQid] || !userAnswers[checkQid].answered) {
+                        nextPos = i;
+                        found = true;
+                        break;
+                    }
+                }
+                const nextQid = shuffledIndices[nextPos];
+                currentIndex = filteredIndices.indexOf(nextQid);
+                renderCurrentQuestion();
+            }
         }
         
         // Sidebar Toggle logic
@@ -1035,6 +614,12 @@
             buildChapterFilter();
             filterByChapter("Tất cả");
             updateStatsAndProgress();
+            
+            document.getElementById("modeABtn").onclick = () => switchMode("A");
+            document.getElementById("modeBBtn").onclick = () => switchMode("B");
+            
+            // Thiết lập chế độ mặc định từ localStorage
+            switchMode(currentMode);
             
             nextBtn.onclick = nextQuestion;
             prevBtn.onclick = prevQuestion;
